@@ -18,7 +18,7 @@ namespace API.Repositories
         public List<Product> Get(){
             using (var connection = new MySqlConnection(connectionString))
             {
-                return connection.Query<Product>("SELECT * FROM Product").ToList();
+                return connection.Query<Product>("SELECT * FROM Products").ToList();
             }
         }
 
@@ -26,7 +26,7 @@ namespace API.Repositories
         {
             using (var connection = new MySqlConnection(connectionString))
             {
-                return connection.QuerySingleOrDefault<Product>("SELECT * FROM Product WHERE Id = @id", new { id });
+                return connection.QuerySingleOrDefault<Product>("SELECT * FROM Products WHERE Id = @id", new { id });
             }
         }
 
@@ -34,7 +34,7 @@ namespace API.Repositories
         {
             using (var connection = new MySqlConnection(connectionString))
             {
-                connection.Execute("INSERT INTO Product (name, description, price, stock, image) VALUES(@name, @description, @price, @stock, @image)", Product);
+                connection.Execute("INSERT INTO Products (name, description, price, stock, image) VALUES(@name, @description, @price, @stock, @image)", Product);
             }
         }
 
@@ -42,7 +42,7 @@ namespace API.Repositories
         {
             using (var connection = new MySqlConnection(connectionString))
             {
-                connection.Execute("DELETE FROM Product WHERE id=@id", new { id });
+                connection.Execute("DELETE FROM Products WHERE id=@id", new { id });
             }
         }
     }
