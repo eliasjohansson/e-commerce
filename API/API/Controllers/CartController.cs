@@ -1,3 +1,4 @@
+using System;
 using API.Models;
 using API.Repositories;
 using API.Services;
@@ -29,6 +30,20 @@ namespace API.Controllers
             }
 
             return NotFound();
+        }
+        
+        public class Data
+        {
+            public int productId {get; set;}
+        }
+        
+        [Route("{cartId}/products")]
+        [HttpPost]
+        public IActionResult AddProduct(int cartId, [FromBody] dynamic data )
+        {
+            cartService.AddProduct(cartId, (int)data.productId);
+            return Ok(data.productId);
+
         }
     }
 }

@@ -35,5 +35,47 @@ namespace API.Repositories
                 return cart;
             }
         }
+
+        public int Create()
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                var createSQL = "INSERT INTO Carts() VALUES (); SELECT CAST(SCOPE_IDENTITY() as int)";
+                var cartId = connection.QuerySingle<int>(createSQL);
+                return cartId;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            
+        }
+
+        public void AddProduct(int? cartId, int productId)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {   
+                var cartSQL = "SELECT * FROM Carts_Products WHERE cartId = @cartId AND productId = @productId";
+
+                var relation = connection.QuerySingleOrDefault(cartSQL, new {cartId, productId});
+                if (relation != null)
+                {
+                    var incrementSQL = "UPDATE Carts_Products SET Quantity = @quantity WHERE cartId = @cartId AND productId = @productId";
+                    var quantity = relation.quantity + 1;
+                    connection.Execute(incrementSQL, new {quantity, cartId, productId});
+                }
+                else
+                {
+                    var createSQL = "INSERT INTO Carts_Products (cartId, productId, quantity) VALUES (@cartId, @productId, 1)";
+                    connection.Execute(createSQL, new {cartId, productId});
+                }
+            }
+        }
+        
+        public void RemoveProduct(int cartId, int productId)
+        {
+            // Decrement quantity column
+            // If quantity decreases to 0 remove relation completely
+        }
     }
 }
