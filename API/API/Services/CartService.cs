@@ -42,13 +42,10 @@ namespace API.Services
         }
 
         public bool RemoveProduct(int cartId, int productId)
-        {
-            // Add validation ! 
-                // Cart ID exists
-                // Product ID exists
-                // Cart<->Product relation exists
+        {       
+            if (ProductRepository.Get(productId) == null) return false;
+            if (CartRepository.Get(cartId) == null) return false;
                 
-            
             CartRepository.RemoveProduct(cartId, productId);
             return true;
         }

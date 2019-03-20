@@ -79,6 +79,23 @@ namespace API.Repositories
         {
             // Decrement quantity column
             // If quantity decreases to 0 remove relation completely
+            using (var connection = new MySqlConnection(connectionString))
+            {   
+                var cartSQL = "SELECT * FROM Carts_Products WHERE cartId = @cartId AND productId = @productId";
+
+                var relation = connection.QuerySingleOrDefault(cartSQL, new {cartId, productId});
+                if (relation != null && relation.quantity > 1)
+                {
+                    var decrementSQL = "UPDATE Carts_Products SET Quantity = @quantity WHERE cartId = @cartId AND productId = @productId";
+                    var quantity = relation.quantity - 1;
+                    connection.Execute(decrementSQL, new {quantity, cartId, productId});
+                }
+                else
+                {
+                    var createSQL = "DELETE FROM Carts_Products WHERE cartId = @cartId AND productId = @productId";
+                    connection.Execute(createSQL, new {cartId, productId});
+                }
+            }
         }
     }
 }

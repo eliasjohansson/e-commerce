@@ -50,5 +50,17 @@ namespace API.Controllers
 
             return NotFound();
         }
+
+        [Route("{cartId}/products")]
+        [HttpDelete]
+        public IActionResult RemoveProduct(int cartId, [FromBody] dynamic data)
+        {
+            if (cartService.RemoveProduct(cartId, (int) data.productId))
+            {
+                return Ok();
+            }
+
+            return NotFound();
+        }
     }
 }
