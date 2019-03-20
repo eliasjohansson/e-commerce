@@ -16,7 +16,7 @@ namespace API.Controllers
         public CartController (IConfiguration configuration)
         {
             connectionString = configuration.GetConnectionString("ConnectionString");
-            cartService = new CartService(new CartRepository(connectionString));
+            cartService = new CartService(new CartRepository(connectionString), new ProductRepository(connectionString));
         }
 
         [HttpGet("{id}")]
@@ -32,18 +32,16 @@ namespace API.Controllers
             return NotFound();
         }
         
-        public class Data
-        {
-            public int productId {get; set;}
-        }
-        
         [Route("{cartId}/products")]
         [HttpPost]
         public IActionResult AddProduct(int cartId, [FromBody] dynamic data )
         {
-            cartService.AddProduct(cartId, (int)data.productId);
-            return Ok(data.productId);
+            if (cartService.AddProduct(cartId, (int) data.productId))
+            {
+                return Ok();
+            }
 
+            return NotFound();
         }
     }
 }

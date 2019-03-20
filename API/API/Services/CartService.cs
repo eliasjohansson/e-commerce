@@ -8,10 +8,12 @@ namespace API.Services
     public class CartService
     {
         private readonly CartRepository CartRepository;
+        private readonly ProductRepository ProductRepository;
 
-        public CartService(CartRepository CartRepository)
+        public CartService(CartRepository CartRepository, ProductRepository ProductRepository)
         {
             this.CartRepository = CartRepository;
+            this.ProductRepository = ProductRepository;
         }
         
         public Cart Get(int id)
@@ -32,11 +34,10 @@ namespace API.Services
         }
 
         public bool AddProduct(int cartId, int productId)
-        {   
-            // Validation:
-                // Product ID exists
-                // Cart ID exists
-                
+        {
+            if (ProductRepository.Get(productId) == null) return false;
+            if (CartRepository.Get(cartId) == null) return false;
+            
             CartRepository.AddProduct(cartId, productId);
             return true;
         }

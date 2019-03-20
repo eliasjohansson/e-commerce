@@ -30,8 +30,11 @@ namespace API.Repositories
                         WHERE CP.cartId = 1";
                 
                 var cart = connection.QuerySingleOrDefault<Cart>(cartSQL, new { id });
-                var products = cart.Products = (List<Product>)connection.Query<Product>(productsSQL,new {id});
-                cart.Products = products;
+                if (cart != null)
+                {
+                    var products = cart.Products = (List<Product>)connection.Query<Product>(productsSQL,new {id});
+                    cart.Products = products;
+                }
                 return cart;
             }
         }
