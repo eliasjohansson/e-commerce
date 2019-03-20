@@ -27,7 +27,7 @@ namespace API.Repositories
                       FROM 
                         Carts_Products AS CP 
                         INNER JOIN Products AS P ON CP.productId = P.id 
-                        WHERE CP.cartId = 1";
+                        WHERE CP.cartId = @id";
                 
                 var cart = connection.QuerySingleOrDefault<Cart>(cartSQL, new { id });
                 if (cart != null)
@@ -43,7 +43,7 @@ namespace API.Repositories
         {
             using (var connection = new MySqlConnection(connectionString))
             {
-                var createSQL = "INSERT INTO Carts() VALUES (); SELECT CAST(SCOPE_IDENTITY() as int)";
+                var createSQL = "INSERT INTO Carts() VALUES (); SELECT LAST_INSERT_ID()";
                 var cartId = connection.QuerySingle<int>(createSQL);
                 return cartId;
             }

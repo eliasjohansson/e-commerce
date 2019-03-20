@@ -21,10 +21,9 @@ namespace API.Services
             return CartRepository.Get(id);
         }
 
-        public bool Create()
+        public int Create()
         {
-            CartRepository.Create();
-            return true;
+            return CartRepository.Create();
         }
 
         public bool Delete(int id)

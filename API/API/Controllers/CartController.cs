@@ -31,6 +31,13 @@ namespace API.Controllers
 
             return NotFound();
         }
+
+        [HttpPost]
+        public IActionResult Create()
+        {
+            var cartId = cartService.Create();
+            return Ok(cartId);
+        }
         
         [Route("{cartId}/products")]
         [HttpPost]
