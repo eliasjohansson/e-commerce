@@ -38,10 +38,11 @@ namespace API.Controllers
             return NotFound();
         }
         
+        /*
         [HttpPost]
         public IActionResult Post([FromBody]Product product)
         {
-            var result = productService.Add(product);
+            var result = productService.Create(product);
             if (!result)
             {
                 return BadRequest();
@@ -62,5 +63,6 @@ namespace API.Controllers
     
             return Ok();
         }
+        */
     }
 }

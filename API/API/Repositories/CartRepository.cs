@@ -51,7 +51,11 @@ namespace API.Repositories
 
         public void Delete(int id)
         {
-            
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                var deleteSQL = "DELETE FROM  Carts WHERE id=@id";
+                connection.Execute(deleteSQL, new { id});
+            }
         }
 
         public void AddProduct(int? cartId, int productId)

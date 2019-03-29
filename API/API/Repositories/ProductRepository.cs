@@ -30,7 +30,7 @@ namespace API.Repositories
             }
         }
 
-        public void Add(Product Product)
+        public void Create(Product Product)
         {
             using (var connection = new MySqlConnection(connectionString))
             {

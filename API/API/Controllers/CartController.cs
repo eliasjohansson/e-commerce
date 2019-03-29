@@ -38,6 +38,13 @@ namespace API.Controllers
             var cartId = cartService.Create();
             return Ok(cartId);
         }
+
+        [HttpPost("{id}")]
+        public IActionResult Delete(int id)
+        {
+            cartService.Delete(id);
+            return Ok();
+        }
         
         [Route("{cartId}/products")]
         [HttpPost]

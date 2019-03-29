@@ -24,12 +24,12 @@ namespace API.Services
             return ProductRepository.Get(id);
         }
 
-        public bool Add(Product product)
+        public bool Create(Product product)
         {
             if (product == null) return false;
             if (!product.GetType().GetProperties().Any(p => p.GetValue(product) != null)) return false;
             
-            ProductRepository.Add(product);
+            ProductRepository.Create(product);
             return true;
 
         }
