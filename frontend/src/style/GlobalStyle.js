@@ -4,7 +4,10 @@ import modernNormalize from 'styled-modern-normalize';
 const GlobalStyle = createGlobalStyle`
   ${modernNormalize}
 
+  @import url('https://fonts.googleapis.com/css?family=Lato');
+
   body {
+    font-family: 'Lato', sans-serif;
     background-color: ${({ theme }) => theme.colorTest};
   }
 
