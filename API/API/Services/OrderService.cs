@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using API.Models;
 using API.Repositories;
 
@@ -10,6 +11,12 @@ namespace API.Services
         public OrderService(OrderRepository OrderRepository)
         {
             this.OrderRepository = OrderRepository;
+        }
+
+        public List<Order> GetByUser(int userId)
+        {
+            var orders = OrderRepository.GetByUser(userId);
+            return orders;
         }
 
         public int Create(Order order)

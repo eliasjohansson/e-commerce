@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using API.Models;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
@@ -17,6 +19,27 @@ namespace API.Repositories
             this.connectionString = connectionString;
             cartRepository = new CartRepository(connectionString);
         }
+
+        public List<Order> GetByUser(int userId)
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                var orderSQL = "SELECT * FROM Orders WHERE customerId = @customerId";
+                var productsSQL = "SELECT * FROM OrderProducts WHERE orderId = @orderId";
+                
+                var orders = connection.Query<Order>(orderSQL, new { customerId = userId }).ToList();
+                if (orders.Any())
+                {
+                    foreach (var order in orders)
+                    {
+                        var products = (List<Product>)connection.Query<Product>(productsSQL,new {orderId = order.Id});
+                        order.Products = products;
+                    }
+                   
+                }
+                return orders;
+            }
+        }
         
         public int Create(Order order)
         {
@@ -26,11 +49,11 @@ namespace API.Repositories
                 
                 if (order.CustomerId != null)
                 {
-                    orderId = connection.QuerySingle<int>("INSERT INTO Orders (customerId, shippingAddress, shippingCountry, shippingZipcode) VALUES(@customerId, @shippingAddress, @shippingCountry, @shippingZipcode); SELECT LAST_INSERT_ID()", order);
+                    orderId = connection.QuerySingle<int>("INSERT INTO Orders (customerId, shippingAddress, shippingCountry, shippingCity shippingZipcode) VALUES(@customerId, @shippingAddress, @shippingCountry, @shippingCity, @shippingZipcode); SELECT LAST_INSERT_ID()", order);
                 }
                 else
                 {
-                    orderId = connection.QuerySingle<int>("INSERT INTO Orders (shippingAddress, shippingCountry, shippingZipcode, customerEmail, customerName) VALUES(@shippingAddress, @shippingCountry, @shippingZipcode, @customerEmail, @customerName); SELECT LAST_INSERT_ID()", order);
+                    orderId = connection.QuerySingle<int>("INSERT INTO Orders (shippingAddress, shippingCountry, shippingCity shippingZipcode, customerEmail, customerName) VALUES(@shippingAddress, @shippingCountry, @shippingCity, @shippingZipcode, @customerEmail, @customerName); SELECT LAST_INSERT_ID()", order);
                 }
                 
                 var cart = cartRepository.Get(order.CartId);

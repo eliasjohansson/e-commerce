@@ -3,6 +3,7 @@ using API.Repositories;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.Configuration;
 
 namespace API.Controllers
@@ -19,18 +20,20 @@ namespace API.Controllers
             orderService = new OrderService(new OrderRepository(connectionString));
         }
 
-        /* [HttpGet("{id}")]
-        public IActionResult Get(int id)
+        [HttpGet, Authorize]
+        public IActionResult Get()
         {
-            var order = orderService.Get(id);
-
-            if (order != null)
+            int userId;
+            
+            if (int.TryParse(this.User.Identity.Name, out userId))
             {
-                return Ok(order);
+                var orders = orderService.GetByUser(userId);
+                if (orders.Any()) return Ok(orders);
+                return BadRequest();
             }
 
-            return NotFound();
-        }*/
+            return Unauthorized();
+        }
 
         [HttpPost("guest")]
         public IActionResult GuestCreate([FromBody] Order order)
