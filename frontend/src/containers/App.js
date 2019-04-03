@@ -7,6 +7,9 @@ import theme from '../style/theme';
 import GlobalStyle from '../style/GlobalStyle';
 import Home from './Home/index';
 import Sidebar from '../components/Sidebar/index';
+import Order from './Order';
+import AuthModal from '../components/AuthModal';
+import Account from './Account';
 
 const StyledApp = styled.div`
   display: flex;
@@ -15,7 +18,7 @@ const StyledApp = styled.div`
   padding-right: 72px;
 
   > main {
-    height: 100%;
+    min-height: 100%;
     width: 100%;
     padding: ${({ theme }) => theme.spacingXL};
   }
@@ -50,42 +53,14 @@ const App = () => {
       <>
         <GlobalStyle />
 
-        {/* {authenticatedUser && <div>{authenticatedUser.username}</div>}
-        <button onClick={() => logout()}>Logout</button>
-        <button
-          onClick={async () => {
-            try {
-              const res = await fetch(
-                `${process.env.REACT_APP_API_URI}/users/login`,
-                {
-                  method: 'POST',
-                  body: JSON.stringify({
-                    username: 'Tester',
-                    password: '123'
-                  }),
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json'
-                  }
-                }
-              );
-              const { token, user } = await res.json();
-              localStorage.setItem('access_token', token);
-              setToken(token);
-              setLoading(true);
-              tokenAuthenticate();
-            } catch ({ response: res }) {
-              console.log(res);
-            }
-          }}
-        >
-          Login
-        </button> */}
-
         <StyledApp>
+          <AuthModal />
+
           <main>
             <Router>
-              <Home path="/" />
+              <Home path="/*" />
+              <Order path="/order" />
+              <Account path="/account" />
             </Router>
           </main>
 

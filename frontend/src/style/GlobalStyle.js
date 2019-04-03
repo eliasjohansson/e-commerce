@@ -5,6 +5,7 @@ const GlobalStyle = createGlobalStyle`
   ${modernNormalize}
 
   @import url('https://fonts.googleapis.com/css?family=Lato');
+  @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
 
   body {
     font-family: 'Lato', sans-serif;

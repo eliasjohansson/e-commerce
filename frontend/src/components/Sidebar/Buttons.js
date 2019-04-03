@@ -35,8 +35,23 @@ export const Expand = props => (
   </StyledExpand>
 );
 
+// Text Button ===========================================================
+const StyledTextButton = styled.button`
+  ${sharedStyle}
+  font-size: 1rem;
+  padding: 0 ${({ theme }) => theme.spacingM};
+  width: auto;
+  &:hover {
+    background-color: ${({ theme }) => theme.colorOffWhite};
+  }
+`;
+
+export const TextButton = props => (
+  <StyledTextButton {...props}>{props.children}</StyledTextButton>
+);
+
 // CHECKOUT =========================================================
-const StyledCheckout = styled.div`
+const StyledCheckout = styled.button`
   ${sharedStyle}
   width: auto;
   font-size: 1rem;
@@ -52,8 +67,8 @@ const StyledCheckout = styled.div`
 `;
 
 export const Checkout = props => (
-  <StyledCheckout>
-    <span>Checkout</span>
+  <StyledCheckout {...props}>
+    Checkout
     {/* <MdShoppingCart /> */}
   </StyledCheckout>
 );

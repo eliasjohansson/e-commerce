@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdChevronLeft } from 'react-icons/md';
-import { Expand, Checkout } from './Buttons';
+import { Expand, Checkout, Login, TextButton } from './Buttons';
 import Cart from './Cart';
 import Header from './Header';
+import { useStore, useActions } from 'easy-peasy';
+import Footer from './Footer';
+import { navigate } from '@reach/router';
 
 const StyledSidebar = styled.div`
   position: fixed;
@@ -11,7 +14,7 @@ const StyledSidebar = styled.div`
   right: 0;
   width: 372px;
   height: 100vh;
-  z-index: 1000;
+  z-index: 900;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -24,16 +27,36 @@ const StyledSidebar = styled.div`
 `;
 
 const Sidebar = props => {
-  const [expanded, setExpanded] = useState(true);
+  const { products, id } = useStore(state => state.cart);
+  const { isAuthenticated, authenticatedUser } = useStore(state => state.auth);
+  const { setModalOpen } = useActions(actions => actions.auth);
+  const [expanded, setExpanded] = useState(false);
+
+  const totalPrice = products.reduce((a, c) => {
+    return a + c.price * c.quantity;
+  }, 0);
 
   return (
     <StyledSidebar expanded={expanded}>
       <Header>
         <Expand expanded={expanded} onClick={() => setExpanded(!expanded)} />
-        <Checkout />
+        {isAuthenticated ? (
+          <TextButton onClick={() => navigate('/account')}>
+            {authenticatedUser.username}
+          </TextButton>
+        ) : (
+          <TextButton onClick={() => setModalOpen(true)}>Login</TextButton>
+        )}
       </Header>
 
-      <Cart />
+      <Cart expanded={expanded} />
+
+      <Footer
+        expanded={expanded}
+        close={() => setExpanded(false)}
+        cartId={id}
+        totalPrice={totalPrice}
+      />
     </StyledSidebar>
   );
 };

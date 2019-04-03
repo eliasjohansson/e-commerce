@@ -5,6 +5,7 @@ const authStore = {
   isLoading: true,
   accessToken: null,
   authenticatedUser: null,
+  modalOpen: false,
 
   setLoading: action((state, payload) => {
     state.isLoading = payload;
@@ -17,6 +18,9 @@ const authStore = {
   }),
   setAuthenticatedUser: action((state, payload) => {
     state.authenticatedUser = payload;
+  }),
+  setModalOpen: action((state, payload) => {
+    state.modalOpen = payload;
   }),
 
   tokenAuthenticate: thunk(async (actions, payload, { getState }) => {
