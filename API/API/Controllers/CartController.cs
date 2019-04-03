@@ -17,6 +17,7 @@ namespace API.Controllers
         {
             connectionString = configuration.GetConnectionString("ConnectionString");
             cartService = new CartService(new CartRepository(connectionString), new ProductRepository(connectionString));
+  
         }
 
         [HttpGet("{id}")]
@@ -52,7 +53,9 @@ namespace API.Controllers
         {
             if (cartService.AddProduct(cartId, (int) data.productId))
             {
-                return Ok();
+                var cart = cartService.Get(cartId);
+                var addedProduct = cart.Products.Find(p => p.Id == (int) data.productId);
+                return Ok(addedProduct);
             }
 
             return NotFound();
@@ -64,7 +67,14 @@ namespace API.Controllers
         {
             if (cartService.RemoveProduct(cartId, (int) data.productId))
             {
-                return Ok();
+                var cart = cartService.Get(cartId);
+                var removedProduct = cart.Products.Find(p => p.Id == (int) data.productId);
+                if (removedProduct == null)
+                {
+                    return Ok(new {id = (int) data.productId, quantity = 0});
+                }
+                
+                return Ok(removedProduct);
             }
 
             return NotFound();

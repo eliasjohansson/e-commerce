@@ -7,6 +7,7 @@ using API.Models;
 using API.Repositories;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,22 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
+            var userItem = userService.Get(id);
+        
+            if (userItem != null)
+            {
+                userItem.Password = null;
+                return Ok(userItem);
+            }
+
+            return NotFound();
+        }
+        
+        [HttpGet("me"), Authorize]
+        public IActionResult GetMe()
+        {
+            int id;
+            int.TryParse(this.User.Identity.Name, out id);
             var userItem = userService.Get(id);
         
             if (userItem != null)
