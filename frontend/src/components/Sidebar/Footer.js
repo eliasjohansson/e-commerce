@@ -28,7 +28,7 @@ const Footer = ({ totalPrice, cartId, expanded, close }) => {
     <StyledFooter expanded={expanded}>
       {cartId && totalPrice > 0 && (
         <>
-          <span>${totalPrice}</span>
+          <span>${totalPrice.toFixed(2)}</span>
           <Checkout
             onClick={e => {
               navigate(`/order`);

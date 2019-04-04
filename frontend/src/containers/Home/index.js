@@ -4,7 +4,10 @@ import Products from './Products';
 import SingleProduct from './SingleProduct';
 import { Router } from '@reach/router';
 
-const StyledHome = styled.div``;
+const StyledHome = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+`;
 
 const Home = props => {
   return (

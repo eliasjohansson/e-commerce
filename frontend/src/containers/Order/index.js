@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Router, Redirect } from '@reach/router';
+import { Router, Redirect, Link } from '@reach/router';
 import OrderForm from './Form';
 import OrderConfirm from './Confirm';
 import { useStore, useActions } from 'easy-peasy';
@@ -23,6 +23,7 @@ const Order = props => {
 
   return (
     <StyledOrder>
+      <Link to="/">Go back home</Link>
       {!orderInfo ? (
         <OrderForm cartId={id} setOrderInfo={setOrderInfo} />
       ) : (

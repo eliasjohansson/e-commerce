@@ -11,7 +11,7 @@ const StyledProductListItem = styled(Link)`
   color: inherit;
 
   img {
-    height: 50%;
+    height: 300px;
     width: 100%;
     object-fit: cover;
   }

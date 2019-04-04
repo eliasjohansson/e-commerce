@@ -6,9 +6,10 @@ import Cards from 'react-credit-cards';
 import 'react-credit-cards/lib/styles.scss';
 import { Input } from '../../components/Forms';
 import Button from '../../components/Button';
-import { useStore } from 'easy-peasy';
+import { useStore, useActions } from 'easy-peasy';
 
 const StyledOrderForm = styled.div`
+  margin-top: 1rem;
   h2 {
     margin-top: ${({ theme }) => theme.spacingXL};
     margin-bottom: ${({ theme }) => theme.spacingL};
@@ -49,6 +50,7 @@ const CreditCardSchema = Yup.object().shape({
 const OrderForm = ({ setOrderInfo, cartId }) => {
   const [focusedField, setFocusedField] = useState(null);
   const { isAuthenticated, authenticatedUser } = useStore(state => state.auth);
+  const { setModalOpen } = useActions(actions => actions.auth);
   return (
     <StyledOrderForm>
       <h1>Order</h1>
@@ -129,7 +131,15 @@ const OrderForm = ({ setOrderInfo, cartId }) => {
             {!isAuthenticated ? (
               <>
                 <p>Login to skip some steps</p>
-                <Button />
+                <Button
+                  style={{ marginBottom: '1rem' }}
+                  onClick={e => {
+                    e.preventDefault();
+                    setModalOpen(true);
+                  }}
+                >
+                  Login
+                </Button>
                 <Input name="firstName" label="First name" type="text" />
                 <Input name="lastName" label="Last name" type="text" />
                 <Input name="email" label="E-mail" type="text" />

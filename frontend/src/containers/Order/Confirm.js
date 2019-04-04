@@ -5,6 +5,7 @@ import { useStore, useActions } from 'easy-peasy';
 import { Link } from '@reach/router';
 
 const StyledOrderConfirm = styled.div`
+  margin-top: 1rem;
   > h3 {
     color: darkgreen;
   }

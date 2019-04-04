@@ -25,7 +25,9 @@ const StyledApp = styled.div`
 `;
 
 const App = () => {
-  const { authenticatedUser, isAuthenticated } = useStore(state => state.auth);
+  const { authenticatedUser, isAuthenticated, isLoading } = useStore(
+    state => state.auth
+  );
   const { logout, setLoading, setToken, tokenAuthenticate } = useActions(
     actions => actions.auth
   );
@@ -60,7 +62,7 @@ const App = () => {
             <Router>
               <Home path="/*" />
               <Order path="/order" />
-              <Account path="/account" />
+              {!isLoading && <Account path="/account" />}
             </Router>
           </main>
 
