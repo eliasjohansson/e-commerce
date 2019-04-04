@@ -29,10 +29,22 @@ namespace API.Controllers
             {
                 var orders = orderService.GetByUser(userId);
                 if (orders.Any()) return Ok(orders);
-                return BadRequest();
+                return NotFound();
             }
 
             return Unauthorized();
+        }
+        
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var order = orderService.Get(id);
+            if (order != null)
+            {
+                return Ok(order);
+            }
+
+            return NotFound();
         }
 
         [HttpPost("guest")]

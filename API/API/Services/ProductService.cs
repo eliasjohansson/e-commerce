@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using API.Interfaces;
 using API.Models;
 using API.Repositories;
 
@@ -7,9 +8,9 @@ namespace API.Services
 {
     public class ProductService
     {
-        private readonly ProductRepository ProductRepository;
+        private readonly IProductRepository ProductRepository;
 
-        public ProductService(ProductRepository ProductRepository)
+        public ProductService(IProductRepository ProductRepository)
         {
             this.ProductRepository = ProductRepository;
         }

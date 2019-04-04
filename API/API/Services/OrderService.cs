@@ -13,6 +13,11 @@ namespace API.Services
             this.OrderRepository = OrderRepository;
         }
 
+        public Order Get(int id)
+        {
+            var order = OrderRepository.Get(id);
+            return order;
+        }
         public List<Order> GetByUser(int userId)
         {
             var orders = OrderRepository.GetByUser(userId);

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using API.Interfaces;
 using API.Models;
 using Dapper;
 using MySql.Data.MySqlClient;
 
 namespace API.Repositories
 {
-    public class ProductRepository
+    public class ProductRepository : IProductRepository
     {
         private readonly string connectionString;
 

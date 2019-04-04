@@ -13,7 +13,7 @@ namespace API.Models
         public string ShippingZipcode { get; set; }
         public string CustomerEmail { get; set; }
         public string CustomerName { get; set; }
-        
+        public string CreatedAt { get; set; }
         public List<Product> Products { get; set; }
     }
 }
