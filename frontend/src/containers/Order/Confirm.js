@@ -76,7 +76,7 @@ const OrderConfirm = ({ orderInfo, completedOrder }) => {
           </ul>
         </div>
 
-        <b>${totalPrice}</b>
+        <b>${totalPrice.toFixed(2)}</b>
       </OrderSummary>
 
       {!completed ? (
